@@ -1,0 +1,25 @@
+﻿Build started 2014-04-09 10:24:59.
+     1>Project "C:\Users\SESEMO\Documents\Visual Studio 2013\Projects\AROpenCVProject\AROpenCVProject\AROpenCVProject.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /IC:\opencv\build\\install\include /Zi /nologo /W3 /WX- /Od /D WIN32 /D _DEBUG /D _CONSOLE /D _LIB /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt Common.cpp Main.cpp Renderpoints.cpp
+         Renderpoints.cpp
+         Main.cpp
+         Common.cpp
+         Generating Code...
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\SESEMO\Documents\Visual Studio 2013\Projects\AROpenCVProject\x64\Debug\AROpenCVProject.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files (x86)\Windows Kits\8.1\Lib\winv6.3\um\x64" /LIBPATH:"C:\Program Files\GLFW\lib" /LIBPATH:"C:\Users\SESEMO\Documents\Visual Studio 2013\Projects\AROpenCVProject\AROpenCVProject\five-point-nister\build\Debug" /LIBPATH:C:\opencv\build\\x64\vc12\lib opencv_calib3d248d.lib opencv_contrib248d.lib opencv_core248d.lib opencv_features2d248d.lib OpenGL32.lib opencv_flann248d.lib opencv_highgui248d.lib opencv_imgproc248d.lib opencv_legacy248d.lib opencv_ml248d.lib opencv_nonfree248d.lib opencv_objdetect248d.lib opencv_photo248d.lib opencv_stitching248d.lib opencv_superres248d.lib opencv_ts248d.lib opencv_video248d.lib opencv_videostab248d.lib glfw3.lib GlU32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\SESEMO\Documents\Visual Studio 2013\Projects\AROpenCVProject\x64\Debug\AROpenCVProject.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\SESEMO\Documents\Visual Studio 2013\Projects\AROpenCVProject\x64\Debug\AROpenCVProject.lib" /MACHINE:X64 x64\Debug\CameraCalibration.obj
+         x64\Debug\Common.obj
+         x64\Debug\FeatureMatcher.obj
+         "x64\Debug\five-point.obj"
+         x64\Debug\modelest.obj
+         x64\Debug\precomp.obj
+         x64\Debug\Main.obj
+         x64\Debug\PoseEstimation.obj
+         x64\Debug\Renderpoints.obj
+         x64\Debug\Triangulation.obj
+         AROpenCVProject.vcxproj -> C:\Users\SESEMO\Documents\Visual Studio 2013\Projects\AROpenCVProject\x64\Debug\AROpenCVProject.exe
+     1>Done Building Project "C:\Users\SESEMO\Documents\Visual Studio 2013\Projects\AROpenCVProject\AROpenCVProject\AROpenCVProject.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:04.89
