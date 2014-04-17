@@ -154,6 +154,7 @@
     <ClCompile Include="five-point-nister\modelest.cpp" />
     <ClCompile Include="five-point-nister\precomp.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MultipleViews.cpp" />
     <ClCompile Include="PoseEstimation.cpp" />
     <ClCompile Include="Renderpoints.cpp" />
     <ClCompile Include="Triangulation.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="five-point-nister\five-point.hpp" />
     <ClInclude Include="five-point-nister\precomp.hpp" />
     <ClInclude Include="five-point-nister\_modelest.h" />
+    <ClInclude Include="MultipleViews.h" />
     <ClInclude Include="PoseEstimation.h" />
     <ClInclude Include="Renderpoints.h" />
     <ClInclude Include="Triangulation.h" />

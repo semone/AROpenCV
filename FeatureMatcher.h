@@ -32,7 +32,7 @@ public:
 	Mat FeatureMatcher::detectKeyPoints(Mat &image);
 	vector<DMatch> FeatureMatcher::detectAndMatch(Mat &image1, Mat &image2, vector<KeyPoint> &keyPoints1, vector<KeyPoint> &keyPoints2);
 	int ratioTest(vector<vector<DMatch>>& matches);
-	void symmetryTest(const vector<vector<cv::DMatch>>& matches1, const std::vector<std::vector<cv::DMatch>>& matches2,
+	void symmetryTest(const vector<vector<DMatch>>& matches1, const vector<vector<DMatch>>& matches2,
 		vector<DMatch>& symMatches);
 	void ransacTest(const vector<DMatch>& matches,
 		const vector<KeyPoint>& keypoints1,

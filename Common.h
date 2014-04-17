@@ -8,6 +8,11 @@
 
 using namespace cv;
 
+//struct CloudPoint{
+//	Point3f pt;
+//	vector<int> indexOf2DOrigin;
+//};
+
 Mat undistortImage(Mat image, Mat cameraMatrix, Mat distCoeffs);
 void readCalibration(Mat &cameraMatrix, Mat &distCoeffs);
 //vector<Point3f> modifyPoints(Mat worldPoints3D);
