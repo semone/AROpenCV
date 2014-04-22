@@ -157,7 +157,7 @@
     <ClCompile Include="MultipleViews.cpp" />
     <ClCompile Include="PoseEstimation.cpp" />
     <ClCompile Include="Renderpoints.cpp" />
-    <ClCompile Include="Triangulation.cpp" />
+    <ClCompile Include="Storage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h" />
@@ -168,7 +168,7 @@
     <ClInclude Include="MultipleViews.h" />
     <ClInclude Include="PoseEstimation.h" />
     <ClInclude Include="Renderpoints.h" />
-    <ClInclude Include="Triangulation.h" />
+    <ClInclude Include="Storage.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

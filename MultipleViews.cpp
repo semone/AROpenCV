@@ -122,37 +122,106 @@ vector<DMatch> MultipleViews::matchAndClear(vector<KeyPoint> &keyPoints1, vector
 	matcher.knnMatch(descriptors2, descriptors1, matches21, 2);
 	cout << "Number of knnMatch (1): " << matches12.size() << endl;
 	cout << "Number of knnMatch (2): " << matches21.size() << endl;
-	/*Mat matchImg1, matchImg2;
-	drawMatches(image1, keyPoints1, image2, keyPoints2, matches12, matchImg1, Scalar::all(-1));
-	drawMatches(image2, keyPoints2, image1, keyPoints1, matches21, matchImg2, Scalar::all(-1));
-	*/
+
 	//Remove with ratio test. If match to similar disgard. 
-	//int removed = ratioTest(matches12);
-	//cout << "Number of matched points 1->2 (ratio test) : " << matches12.size() - removed << endl;
-	int removed = ratioTest(matches21);
+	int removed = ratioTest(matches12);
+	cout << "Number of matched points 1->2 (ratio test) : " << matches12.size() - removed << endl;
+	removed = ratioTest(matches21);
 	cout << "Number of matched points 2->1 (ratio test) : " << matches21.size() - removed << endl;
-	//Mat matchImg1, matchImg2;
-	//drawMatches(image1, keyPoints1, image2, keyPoints2, matches12, matchImg1, Scalar::all(-1));
-	//drawMatches(image2, keyPoints2, image1, keyPoints1, matches21, matchImg2, Scalar::all(-1));
-	//imshow("Matches 1->2", matchImg1);
-	//imshow("Matches 2->1", matchImg2);
-	//imwrite("postratioImg1.jpg", matchImg1);
-	//imwrite("postratioImg2.jpg", matchImg2);
 
 	//Symmetry test
 	vector<DMatch> symMatches;
 	symmetryTest(matches12, matches21, symMatches);
 
-	std::cout << "Number of matched points (symmetry test): " << symMatches.size() << std::endl;
+	cout << "Number of matched points (symmetry test): " << symMatches.size() << endl;
 
 	//Use ransac to remove outliers, check with epipolar line
-	//Show features
-	/*Mat matchImg3;
-	drawMatches(image1, keyPoints1, image2, keyPoints2, symMatches, matchImg3, Scalar::all(-1));
-	imshow("symMatches", matchImg3);*/
 	vector<DMatch> ransacMatch;
 	ransacTest(symMatches, keyPoints1, keyPoints2, ransacMatch);
 
 	return ransacMatch;
+}
 
+void MultipleViews::initBaseLine(Mat &image1, Mat &image2, Mat &worldPoints3D){
+	vector<KeyPoint> keyPoints1 = detectFeatures(image1);
+	vector<KeyPoint> keyPoints2 = detectFeatures(image2);
+	storage.addKeyPoints(keyPoints1);
+	storage.addKeyPoints(keyPoints2);
+
+	Mat descriptors1 = describeFeatures(image1, keyPoints1);
+	Mat descriptors2 = describeFeatures(image2, keyPoints2);
+
+	storage.setLastDescriptor(descriptors2);
+	vector<DMatch> matches = matchAndClear(keyPoints1, keyPoints2, descriptors1, descriptors2);
+	storage.addMatches(0,1, matches);
+	Mat matchImg3;
+	drawMatches(image1, keyPoints1, image2, keyPoints2, matches, matchImg3, Scalar::all(-1));
+	imshow("symMatches", matchImg3);
+
+	vector<Point2f> points1, points2;
+	
+	//Get the matching key points and put them in vectors. 
+	for (vector<DMatch>::const_iterator it = matches.begin();
+		it != matches.end(); ++it) {
+		points1.push_back(keyPoints1[it->queryIdx].pt);
+		points2.push_back(keyPoints2[it->trainIdx].pt);
+	}
+	
+	Mat projMatrix1(3, 4, CV_64F), projMatrix2(3, 4, CV_64F);
+
+	recoverProjectionMatrix(cameraMatrix, matches, points1, points2, projMatrix1, projMatrix2);
+	triangulateAndAdd(projMatrix1, projMatrix2, points1, points2, worldPoints3D);
+}
+
+void MultipleViews::recoverProjectionMatrix(Mat cameraMatrix, vector<DMatch> &matches, vector<Point2f> &points1, vector<Point2f> &points2, Mat &projMatrix1, Mat &projMatrix2){
+	
+	cout << "pp.x: " << cameraMatrix.at<double>(0, 2) << endl;
+	cout << "pp.y: " << cameraMatrix.at<double>(1, 2) << endl;
+
+	cout << "focalx: " << cameraMatrix.at<double>(0, 0) << endl;
+	cout << "focaly: " << cameraMatrix.at<double>(1, 1) << endl;
+
+	Point2d pp = Point2d(cameraMatrix.at<double>(0, 2), cameraMatrix.at<double>(1, 2));
+	double focal = cameraMatrix.at<double>(0, 0);
+
+	Mat E = findEssentialMat(points1, points2, focal, pp, CV_RANSAC, 0.99, 1.0, noArray());
+	Mat R, t;
+	recoverPose(E, points1, points2, R, t, focal, pp, noArray());
+
+	Mat P2 = (Mat_<double>(3, 4) << R.at<double>(0, 0), R.at<double>(0, 1), R.at<double>(0, 2), t.at<double>(0, 0), R.at<double>(1, 0), R.at<double>(1, 1), R.at<double>(1, 2), t.at<double>(1, 0), R.at<double>(2, 0), R.at<double>(2, 1), R.at<double>(2, 2), t.at<double>(2, 0));
+	cout << "P2: " << P2 << endl;
+	Mat P1 = (Mat_<double>(3, 4) << 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0);
+	cout << "P1: " << P1 << endl;
+
+	projMatrix1 = cameraMatrix*P1;
+	projMatrix2 = cameraMatrix*P2;
+
+	storage.addProjectionMatrix(projMatrix1);
+	storage.addProjectionMatrix(projMatrix2);
+
+	//cout << "cameraMatrix*P1: " << projMatrix1 << endl;
+	//cout << "cameraMatrix*P2: " << projMatrix2 << endl;
+}
+
+void MultipleViews::triangulateAndAdd(Mat &projMatrix1, Mat &projMatrix2, vector<Point2f> &points1, vector<Point2f> &points2, Mat &worldPoints3D){
+	Mat worldPoints4D;
+	triangulatePoints(projMatrix1, projMatrix2, points1, points2, worldPoints4D);
+	convertPointsFromHomogeneous(worldPoints4D.t(), worldPoints3D);
+	//Add points to cloud, convert and store which frame 
+	cout << "matchmatrix size: " << storage.matchMatrix.size()<< endl;
+	createCloudPoints(worldPoints3D, 0, 1);
+}
+
+void MultipleViews::createCloudPoints(Mat worldPoints3D, int view1, int view2){
+	int i = 0;
+	CloudPoint p;
+
+	for (int r = 0; r < worldPoints3D.rows; r++)
+	{
+		p.pt = Point3f(worldPoints3D.at<float>(r, 0), worldPoints3D.at<float>(r, 1), worldPoints3D.at<float>(r, 2));
+		p.indexOf2DOrigin.push_back(view1);
+		p.indexOf2DOrigin.push_back(view2);
+
+		storage.addCloudPoints(p);
+	}
 }

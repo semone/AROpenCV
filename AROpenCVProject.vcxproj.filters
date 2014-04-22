@@ -36,9 +36,6 @@
     <ClCompile Include="five-point-nister\precomp.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="Triangulation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Renderpoints.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -46,6 +43,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MultipleViews.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Storage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -65,9 +65,6 @@
     <ClInclude Include="five-point-nister\precomp.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Triangulation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Renderpoints.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -75,6 +72,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MultipleViews.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Storage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

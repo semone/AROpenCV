@@ -1,8 +1,11 @@
-#include "Common.h"
+//#include "Common.h"
 #include <opencv2/opencv.hpp>
 #include <opencv2/nonfree/features2d.hpp>
 #include <iostream>
 #include <math.h>
+#include <algorithm>
+#include "five-point-nister\five-point.hpp"
+#include "Storage.h"
 
 //---------------------------------------------------
 //Namespaces
@@ -30,12 +33,13 @@ private:
 
 public:
 	//constructor
-	MultipleViews(/**/){
+	MultipleViews(/**/):confidenceLevel(0.98f), minDistance(1.0f), ratio(0.4f){
 		detector = new SurfFeatureDetector;
 		extractor = new SurfDescriptorExtractor;
 	};
 	//functions
 	//Should have a storage var from a created storage class
+	Storage storage;
 	void initSystem(/**/);
 	vector<KeyPoint> MultipleViews::detectFeatures(Mat &image);
 	Mat MultipleViews::describeFeatures(Mat &image, vector<KeyPoint> &keypoints);
@@ -56,5 +60,10 @@ public:
 		this->cameraMatrix = cameraMatrix;
 		this->distCoeffs = distCoeffs;
 	}
+	void initBaseLine(Mat &image1, Mat &image2, Mat &worldPoints3D);
+	void recoverProjectionMatrix(Mat cameraMatrix, vector<DMatch> &matches, vector<Point2f> &points1, vector<Point2f> &points2, Mat &projMatrix1, Mat &projMatrix2);
+	void triangulateAndAdd(Mat &projMatrix1, Mat &projMatrix2, vector<Point2f> &points1, vector<Point2f> &points2, Mat &worldPoints3D);
+	void createCloudPoints(Mat worldPoints3D, int view1, int view2);
+
 };
 #endif
