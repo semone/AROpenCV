@@ -32,7 +32,7 @@ private:
 
 public:
 	//constructor
-	MultipleViews(/**/):confidenceLevel(0.98f), minDistance(1.0f), ratio(0.4f){
+	MultipleViews(/**/):confidenceLevel(0.98f), minDistance(1.0f), ratio(0.4f), currentView(0){
 		detector = new SurfFeatureDetector;
 		extractor = new SurfDescriptorExtractor;
 	};
@@ -61,6 +61,5 @@ public:
 	void recoverProjectionMatrix(Mat cameraMatrix, vector<DMatch> &matches, vector<Point2f> &points1, vector<Point2f> &points2, Mat &projMatrix1, Mat &projMatrix2);
 	void triangulateAndAdd(Mat &projMatrix1, Mat &projMatrix2, vector<Point2f> &points1, vector<Point2f> &points2, vector<int> p1, vector<int>p2);
 	void createCloudPoints(Mat worldPoints3D, vector<int> p1, vector<int>p2);
-
 };
 #endif

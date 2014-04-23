@@ -182,6 +182,7 @@ void MultipleViews::initBaseLine(Mat &image1, Mat &image2){
 
 	recoverProjectionMatrix(cameraMatrix, matches, points1, points2, projMatrix1, projMatrix2);
 	triangulateAndAdd(projMatrix1, projMatrix2, points1, points2, pointIdx1, pointIdx2);
+	currentView = 1;
 }
 
 void MultipleViews::recoverProjectionMatrix(Mat cameraMatrix, vector<DMatch> &matches, vector<Point2f> &points1, vector<Point2f> &points2, Mat &projMatrix1, Mat &projMatrix2){
@@ -225,7 +226,6 @@ void MultipleViews::triangulateAndAdd(Mat &projMatrix1, Mat &projMatrix2, vector
 }
 
 void MultipleViews::createCloudPoints(Mat worldPoints3D, vector<int> p1, vector<int>p2){
-	int i = 0;
 	CloudPoint p;
 
 	for (int r = 0; r < worldPoints3D.rows; r++)
@@ -235,14 +235,13 @@ void MultipleViews::createCloudPoints(Mat worldPoints3D, vector<int> p1, vector<
 		//This is wrong should be modified...
 		p.indexOf2DOrigin.push_back(p1[r]);
 		p.indexOf2DOrigin.push_back(p2[r]);
-
-		//cout << p1[r] << endl;
-
 		storage.addCloudPoints(p);
 	}
 }
 
 void MultipleViews::newView(Mat &image){
+	currentView++;
+	cout << "current view (1): " << currentView << endl; 
 	//Check size of vector(s) first....
 	vector<KeyPoint> prevKeyPoints = storage.allKeypoints.back();
 	//Calc keypoints and add to storage
@@ -253,6 +252,16 @@ void MultipleViews::newView(Mat &image){
 	//Match with prev frame
 	vector<DMatch> matches = matchAndClear(prevKeyPoints, keyPoints, storage.lastDescriptor, descriptors);
 	//cout << "matches.size(): " << matches.size() << endl;
+	vector<Point2f> points1, points2;
+	vector<int> pointIdx1, pointIdx2;
+
+	for (vector<DMatch>::const_iterator it = matches.begin();
+		it != matches.end(); ++it) {
+		points1.push_back(prevKeyPoints[it->queryIdx].pt);
+		points2.push_back(keyPoints[it->trainIdx].pt);
+		pointIdx1.push_back(it->queryIdx);
+		pointIdx2.push_back(it->trainIdx);
+	}
 
 	//Add matches and new descriptor to storage. (Should not be hard coded) 
 	storage.addMatches(1, 2, matches);
@@ -261,6 +270,7 @@ void MultipleViews::newView(Mat &image){
 	vector<Point2f> localImagePts;
 	get3D2DCorrespondances(localPC, localImagePts);
 	recoverNewPose(localPC, localImagePts);
+	triangulateAndAdd(storage.allProjectionMatrices[1], storage.allProjectionMatrices[2], points1, points2, pointIdx1, pointIdx2);
 }
 void MultipleViews::get3D2DCorrespondances(vector<Point3f> &localPC, vector<Point2f> &localImagePts){
 	cout << "get3D2DCorrespondances" << endl;
@@ -270,8 +280,6 @@ void MultipleViews::get3D2DCorrespondances(vector<Point3f> &localPC, vector<Poin
 	
 	//to fix
 	int prevView = 1;
-	int count = 0;
-
 	vector<DMatch> currentMatches = storage.matchMatrix[make_pair(1,2)];
 	for (int matchFromOld = 0; matchFromOld < currentMatches.size(); matchFromOld++){
 		//get index in prev if contrib to pc
@@ -297,7 +305,11 @@ void MultipleViews::recoverNewPose(vector<Point3f> &localPC, vector<Point2f> &lo
 	Mat P = (Mat_<double>(3, 4) << R.at<double>(0, 0), R.at<double>(0, 1), R.at<double>(0, 2), t.at<double>(0, 0), R.at<double>(1, 0), R.at<double>(1, 1), R.at<double>(1, 2), t.at<double>(1, 0), R.at<double>(2, 0), R.at<double>(2, 1), R.at<double>(2, 2), t.at<double>(2, 0));
 	cout << "P2: " << P << endl;
 	//Store pose to storage vector
-	storage.addProjectionMatrix(P);
+
+	Mat projMatrix1 = cameraMatrix*P;
+
+
+	storage.addProjectionMatrix(projMatrix1);
 }
 
 
