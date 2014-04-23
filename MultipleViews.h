@@ -36,15 +36,15 @@ public:
 		detector = new SurfFeatureDetector;
 		extractor = new SurfDescriptorExtractor;
 	};
-	//functions
-	//Should have a storage var from a created storage class
 	Storage storage;
+
+	//functions
 	vector<KeyPoint> MultipleViews::detectFeatures(Mat &image);
 	Mat MultipleViews::describeFeatures(Mat &image, vector<KeyPoint> &keypoints);
 	vector<DMatch> MultipleViews::matchAndClear(vector<KeyPoint> &keyPoints1, vector<KeyPoint> &keyPoints2, Mat &descriptors1, Mat &descriptors2);
 	void newView(Mat &image);
-	void get3D2DCorrespondances(/**/);
-	void recoverNewPose(/**/);
+	void get3D2DCorrespondances(vector<Point3f> &localPC, vector<Point2f> &localImagePts);
+	void recoverNewPose(vector<Point3f> &localPC, vector<Point2f> &localImagePt);
 
 	int ratioTest(vector<vector<DMatch>>& matches);
 	void symmetryTest(const vector<vector<cv::DMatch>>& matches1, const vector<vector<cv::DMatch>>& matches2,
@@ -57,9 +57,9 @@ public:
 		this->cameraMatrix = cameraMatrix;
 		this->distCoeffs = distCoeffs;
 	}
-	void initBaseLine(Mat &image1, Mat &image2, Mat &worldPoints3D);
+	void initBaseLine(Mat &image1, Mat &image2);
 	void recoverProjectionMatrix(Mat cameraMatrix, vector<DMatch> &matches, vector<Point2f> &points1, vector<Point2f> &points2, Mat &projMatrix1, Mat &projMatrix2);
-	void triangulateAndAdd(Mat &projMatrix1, Mat &projMatrix2, vector<Point2f> &points1, vector<Point2f> &points2, Mat &worldPoints3D, vector<int> p1, vector<int>p2);
+	void triangulateAndAdd(Mat &projMatrix1, Mat &projMatrix2, vector<Point2f> &points1, vector<Point2f> &points2, vector<int> p1, vector<int>p2);
 	void createCloudPoints(Mat worldPoints3D, vector<int> p1, vector<int>p2);
 
 };

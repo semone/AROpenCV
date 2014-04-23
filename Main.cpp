@@ -19,10 +19,10 @@ int main(){
 
 	MultipleViews *object = new MultipleViews;
 	//May not need this
-	Mat worldPoints3D;
+	//Mat worldPoints3D;
 	object->setIntrinsicParameters(cameraMatrix, distCoeffs);
-	object->initBaseLine(undistort1, undistort2, worldPoints3D);
-	//object->newView(image3);
+	object->initBaseLine(undistort1, undistort2);
+	object->newView(image3);
 	//cout <<"last: "<< object->storage.pointCloud.size() << endl;
 	//cout << "worldPoints: " << worldPoints3D.size() << endl;
 	//init(object->storage.pointCloud);
