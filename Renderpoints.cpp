@@ -6,23 +6,23 @@ float rotate_y = 0.f, rotate_x = 0.f, delta_rotate;
 const float rotations_per_tick = .2f;
 vector<Point3f> v;
 
-vector<Point3f> modifyPoints(Mat worldPoints3D){
+vector<Point3f> modifyPoints(vector<CloudPoint> worldPoints3D){
 	int i = 0;
 	vector<Point3f> points;
 	Point3f p;
 
-	for (int r = 0; r < worldPoints3D.rows; r++)
+	for (int r = 0; r < worldPoints3D.size(); r++)
 	{
-		p.x = worldPoints3D.at<float>(r, 0);
-		p.y = -worldPoints3D.at<float>(r, 1);
-		p.z = -worldPoints3D.at<float>(r, 2);
+		p.x = worldPoints3D[r].pt.x;
+		p.y = -worldPoints3D[r].pt.y;
+		p.z = -worldPoints3D[r].pt.z;
 		points.push_back(p);
 	}
 	//cout << "points2" << points[0] << endl;
 	return points;
 }
 
-void init(Mat worldPoints3D)
+void init(vector<CloudPoint> worldPoints3D)
 {
 	v = modifyPoints(worldPoints3D);
 	glfwSetErrorCallback(error_callback);

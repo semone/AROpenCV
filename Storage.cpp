@@ -9,10 +9,7 @@ void Storage::setLastDescriptor(Mat descriptor){
 
 }
 void Storage::addMatches(int view1, int view2, vector<DMatch> matches){
-
-	map<pair<int, int>, vector<DMatch> > thisMatch;
-	thisMatch[make_pair(view1, view2)] = matches;
-	matchMatrix.push_back(thisMatch);
+	matchMatrix.insert(pair<pair<int, int>, vector<DMatch>>(make_pair(view1, view2), matches));
 }
 
 void Storage::addCloudPoints(CloudPoint cloudPoint){

@@ -23,7 +23,7 @@ public:
 	}; 
 	vector<vector<KeyPoint> > allKeypoints;
 	Mat lastDescriptor;
-	vector<map<pair<int, int>, vector<DMatch> > >matchMatrix;
+	map<pair<int, int>, vector<DMatch> >matchMatrix;
 	vector<CloudPoint> pointCloud;
 	vector<Mat> allProjectionMatrices;
 
