@@ -8,8 +8,9 @@ int main(){
 	Mat image2 = imread("images/features/image1.jpg", IMREAD_GRAYSCALE);
 	Mat image3 = imread("images/features/image2.jpg", IMREAD_GRAYSCALE);
 	Mat image4 = imread("images/features/image3.jpg", IMREAD_GRAYSCALE);
+	Mat image5 = imread("images/features/image4.jpg", IMREAD_GRAYSCALE);
 
-	if (!image1.data || !image2.data || !image3.data)
+	if (!image1.data || !image2.data || !image3.data || !image4.data)
 		return 0;
 	Mat cameraMatrix, distCoeffs;
 
@@ -18,12 +19,15 @@ int main(){
 	Mat undistort2 = undistortImage(image2, cameraMatrix, distCoeffs);
 	Mat undistort3 = undistortImage(image3, cameraMatrix, distCoeffs);
 	Mat undistort4 = undistortImage(image4, cameraMatrix, distCoeffs);
+	Mat undistort5 = undistortImage(image5, cameraMatrix, distCoeffs);
 
 	MultipleViews *object = new MultipleViews;
 	object->setIntrinsicParameters(cameraMatrix, distCoeffs);
 	object->initBaseLine(undistort1, undistort2);
 	object->newView(undistort3);
-	//object->newView(undistort4);
+	object->newView(undistort4);
+	object->newView(undistort5);
+
 
 	cout <<"object->storage.pointCloud.size(): "<< object->storage.pointCloud.size() << endl;
 	//cout << "worldPoints: " << worldPoints3D.size() << endl;

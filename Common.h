@@ -6,12 +6,13 @@
 #include <iostream>
 
 using namespace cv;
+using namespace std;
 #ifndef COMMON_H
 #define COMMON_H
 
 struct CloudPoint{
 	Point3f pt;
-	vector<int> indexOf2DOrigin;
+	map<int, int> indexOf2DOrigin;
 };
 
 struct MatchedPoint{
