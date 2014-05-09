@@ -5,6 +5,7 @@ void Storage::addKeyPoints(vector<KeyPoint> keyPoints){
 }
 
 void Storage::setLastDescriptor(Mat descriptor){
+	lastDescriptor.empty();
 	lastDescriptor = descriptor;
 
 }

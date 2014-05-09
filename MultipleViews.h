@@ -59,7 +59,7 @@ public:
 	}
 	void initBaseLine(Mat &image1, Mat &image2);
 	void recoverProjectionMatrix(Mat cameraMatrix, vector<DMatch> &matches, vector<Point2f> &points1, vector<Point2f> &points2, Mat &projMatrix1, Mat &projMatrix2);
-	void triangulateAndAdd(Mat &projMatrix1, Mat &projMatrix2, vector<Point2f> &points1, vector<Point2f> &points2, vector<int> p1, vector<int>p2);
-	void createCloudPoints(Mat worldPoints3D, vector<int> p1, vector<int>p2);
+	void triangulateAndAdd(Mat &projMatrix1, Mat &projMatrix2, vector<Point2f> &points1, vector<Point2f> &points2, vector<int> &p1, vector<int> &p2);
+	void createCloudPoints(Mat worldPoints3D, vector<int> &p1, vector<int> &p2);
 };
 #endif

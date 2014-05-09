@@ -12,7 +12,7 @@ using namespace std;
 
 struct CloudPoint{
 	Point3f pt;
-	map<int, int> indexOf2DOrigin;
+	vector<int> indexOf2DOrigin;
 };
 
 struct MatchedPoint{

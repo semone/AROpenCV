@@ -48,9 +48,9 @@ bool captureFrame(){
 			std::cout << "cannot read a frame from video stream" << std::endl;
 			break;
 		}
-		undistort1 = undistortImage(frame, cameraMatrix, distortCoeffs);
-		keyImage = f.detectKeyPoints(undistort1);
-		imshow("window1", keyImage);
+		//undistort1 = undistortImage(frame, cameraMatrix, distortCoeffs);
+		//keyImage = f.detectKeyPoints(undistort1);
+		imshow("window1", frame);
 
 		int key = waitKey(30);
 		
