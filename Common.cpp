@@ -1,6 +1,4 @@
 #include "Common.h"
-#include "FeatureMatcher.h"
-
 
 Mat undistortImage(Mat image, Mat cameraMatrix, Mat distCoeffs){
 	Mat undistorted, map1, map2;
@@ -40,7 +38,6 @@ bool captureFrame(){
 
 	Mat cameraMatrix, distortCoeffs;
 	readCalibration(cameraMatrix, distortCoeffs);
-	FeatureMatcher f;
 
 	while (1){
 		if (!capture->read(frame))

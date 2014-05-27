@@ -124,7 +124,7 @@ void glfwMainLoop(void){
 		//glRotatef(10, 1, 0, 0);
 		//drawColorCube(0.3);
 		//glPopMatrix();
-		glPointSize(2);
+		glPointSize(3);
 		glBegin(GL_POINTS);
 		for (int i = 0; i < v.size(); i++){
 			glPushMatrix();
@@ -367,7 +367,7 @@ static void onMouseButtonPress(GLFWwindow * window, int button, int action, int 
 		glReadPixels(0, 0, img.cols, img.rows, GL_BGR_EXT, GL_UNSIGNED_BYTE, img.data);
 		cv::Mat flipped(img);
 		cv::flip(img, flipped, 0);
-		cv::imwrite("snapshotTest.png", img);
+		cv::imwrite("pc2.png", img);
 	}
 	else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
 	{

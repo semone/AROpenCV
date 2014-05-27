@@ -17,3 +17,4 @@ void shutDown(int return_code);
 void glfwMainLoop(void);
 void setUpCamera(void);
 vector<Point3f> modifyPoints(Mat worldPoints3D);
+void drawColorCube(float r);

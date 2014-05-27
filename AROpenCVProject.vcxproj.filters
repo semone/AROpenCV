@@ -18,13 +18,7 @@
     <ClCompile Include="CameraCalibration.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FeatureMatcher.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PoseEstimation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="five-point-nister\five-point.cpp">
@@ -50,12 +44,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FeatureMatcher.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PoseEstimation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="five-point-nister\_modelest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
