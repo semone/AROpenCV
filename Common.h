@@ -12,7 +12,7 @@ using namespace std;
 
 struct CloudPoint{
 	Point3f pt;
-	map<int, int> indexOf2DOrigin;
+	vector<int> indexOf2DOrigin;
 };
 
 struct MatchedPoint{
@@ -24,5 +24,6 @@ Mat undistortImage(Mat image, Mat cameraMatrix, Mat distCoeffs);
 void readCalibration(Mat &cameraMatrix, Mat &distCoeffs);
 //vector<Point3f> modifyPoints(Mat worldPoints3D);
 bool captureFrame();
+
 
 #endif

@@ -12,8 +12,9 @@ using namespace cv;
 
 static void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
 static void error_callback(int error, const char* description);
-void init(vector<CloudPoint> worldPoints3D);
+void init(vector<CloudPoint> worldPoints3D, vector<Mat> projMats);
 void shutDown(int return_code);
 void glfwMainLoop(void);
 void setUpCamera(void);
 vector<Point3f> modifyPoints(Mat worldPoints3D);
+void drawColorCube(float r);
